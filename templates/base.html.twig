@@ -21,6 +21,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('blog_create') }}">Créer un article</a>
                     </li>
+                    {% if not app.user %}
+                    <li class="nav_item">
+                        <a class="nav-link" href="{{ path('security_login') }}">Connexion</a>
+                    </li>
+                    {% else %}
+                    <li class="nav_item">
+                        <a class="nav-link" href="{{ path('security_logout') }}">Déconnexion</a>
+                    </li>
+                    {% endif %}
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search">

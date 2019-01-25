@@ -3,9 +3,35 @@
 {% block body %}
         <article>
             <h2>{{ article.title }}</h2>
-            <div class="metadata">Ecrit le {{ article.createdAt|date('d:m:Y') }} dans la catégorie Politique</div>
+            <div class="metadata">Ecrit le {{ article.createdAt|date('d:m:Y') }} dans la catégorie {{ article.category.title }}</div>
             <div class="content"><img src="{{ article.image }}" alt="">
                 {{ article.content|raw }}
             </div>
         </article>
+        <section id="commentaires">
+            <h3>{{ article.comments | length }} commentaires :</h3>
+            {% for comment in article.comments %}
+            <div class="comment">
+                <div class="row">
+                    <div class="col-3">
+                        {{ comment.author }} (<small>{{ comment.createdAt | date('d/m/Y à H:i')  }}</small>)
+                    </div>
+                    <div class="col">
+                        {{ comment.content | raw }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% if app.user %}
+            {{ form_start(commentForm) }}
+
+            {{ form_row(commentForm.author, {'attr': {'placeholder': 'Votre nom'}}) }}
+            {{ form_row(commentForm.content, {'attr': {'placeholder': 'Votre commentaire'}}) }}
+            <button type="submit" class="btn btn-success">Envoyer</button>
+            {{ form_end(commentForm) }}
+            {% else %}
+                <p>Vous devez être connecté pour pouvoir ajouter un commentaire !</p>
+                <a href="{{ path('security_login') }}" class="btn btn-primary">Connexion</a>
+            {% endif %}
+        </section>
 {% endblock %}
