@@ -7,7 +7,7 @@ use App\Entity\Comment;
 use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Repository\ArticleRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -45,7 +45,7 @@ class BlogController extends AbstractController
      * @Route("/blog/new", name="blog_create")
      * @Route("/blog/{id}/edit", name="blog_edit")
      */
-    public function create(Article $article = null, Request $request, ObjectManager $manager) {
+    public function create(Article $article = null, Request $request, EntityManagerInterface $manager) {
 
         if(!$article) {
             $article = new Article();
@@ -83,7 +83,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog/{id}", name="blog_show", requirements={"id":"\d+"})
      */
-    public function show(Article $article, Request $request, ObjectManager $manager)
+    public function show(Article $article, Request $request, EntityManagerInterface $manager)
     {
         //$repo = $this->getDoctrine()->getRepository(Article::class);
         //$article = $repo->find($id);
